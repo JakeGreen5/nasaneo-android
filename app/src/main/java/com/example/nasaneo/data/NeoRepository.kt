@@ -6,6 +6,6 @@ import javax.inject.Inject
 class NeoRepository @Inject constructor(
     private val nasaNeoApi: NasaNeoApi
 ) {
-    fun getFeed(): Single<Unit> =
-        Single.never()
+    fun getFeed() = nasaNeoApi.getFeed()
+
 }

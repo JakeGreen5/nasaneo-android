@@ -33,6 +33,12 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.viewState.observe(viewLifecycleOwner){
+
+        }
+
+        viewModel.getFeed()
+
         viewModel.itemToOpen.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let {
 //            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it.url)))
