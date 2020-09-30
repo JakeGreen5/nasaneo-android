@@ -23,6 +23,8 @@ class ListViewModel @Inject constructor(
 
     val viewState = MutableLiveData<ListViewState>()
 
+    val liveData = MutableLiveData<ListItemState>()
+
     init {
         getFeedUseCase.build()
             .map { items ->
@@ -45,7 +47,7 @@ class ListViewModel @Inject constructor(
     }
 
     fun onItemClicked(itemState: ListItemState) {
-        // handle 'on click' logic here
+        liveData.value = itemState
     }
 
     override fun onCleared() {
