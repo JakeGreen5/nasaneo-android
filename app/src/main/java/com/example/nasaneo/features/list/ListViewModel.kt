@@ -3,11 +3,14 @@ package com.example.nasaneo.features.list
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.nasaneo.domain.model.Event
+import com.example.nasaneo.domain.usecases.FetchNeosUseCase
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class ListViewModel @Inject constructor(
-    // feel free to inject required dependencies here
+    private val fetchNeosUseCase: FetchNeosUseCase
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
@@ -16,7 +19,20 @@ class ListViewModel @Inject constructor(
     val viewState = MutableLiveData<ListViewState>()
 
     init {
-        // put your code fetching data here
+        compositeDisposable.add(fetchNeosUseCase.getFeed()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(
+                {
+                    viewState.value = ListViewState(it.map { neo ->
+                        with(neo) {
+                            ListItemState(this, name, url)
+                        }
+                    })
+                }, {
+
+                }
+            ))
     }
 
     fun onItemClicked(itemState: ListItemState) {
