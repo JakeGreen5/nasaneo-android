@@ -1,5 +1,7 @@
 package com.example.nasaneo.features.list
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
+import com.example.nasaneo.data.model.Neo
 import com.example.nasaneo.databinding.ListFragmentBinding
 import com.example.nasaneo.di.AppComponent
 import com.example.nasaneo.di.getComponent
@@ -29,7 +32,15 @@ class ListFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.callback = (object : ListViewModel.Callback {
+            override fun onClick(neo: Neo) {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(neo.url)))
+            }
+        })
+    }
 }
 
-// startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(...)))
-// ListFragmentDirections.actionListFragmentToDetailsFragment(...)

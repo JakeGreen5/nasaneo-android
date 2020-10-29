@@ -2,6 +2,7 @@ package com.example.nasaneo.features.list
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.nasaneo.data.model.Neo
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -22,6 +23,12 @@ class ListViewModel @Inject constructor(
     private val compositeDisposable = CompositeDisposable()
 
     val viewState = MutableLiveData<ListViewState>()
+
+    interface Callback {
+        fun onClick(neo: Neo)
+    }
+
+    lateinit var callback: Callback
 
     init {
         getFeedUseCase.build()
@@ -46,6 +53,7 @@ class ListViewModel @Inject constructor(
 
     fun onItemClicked(itemState: ListItemState) {
         // handle 'on click' logic here
+        callback.onClick(itemState.neo)
     }
 
     override fun onCleared() {
