@@ -35,8 +35,8 @@ class ListViewModel @Inject constructor(
                     )
                 }
             }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = {
                     viewState.value = ListViewState(items = it)
